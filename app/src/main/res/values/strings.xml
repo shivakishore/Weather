@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select">Select</string>
+    <string name="add_a_location">Add a location</string>
+    <string name="temperature">%s℃</string>
+    <string name="feels_like">Feels like %s℃</string>
+    <string name="pressureHumid">Pressure %1$s, Humidity %2$s%%</string>
+    <string name="minMaxTemp">Min. %1$s℃, Max. %2$s℃</string>
+    <string name="wind_speed">Wind speed %sm/s</string>
+    <string name="wind_deg">Wind deg %s°</string>
+    <string name="sunrise">Sunrise %s</string>
+    <string name="sunset">Sunset %s</string>
+</resources>
