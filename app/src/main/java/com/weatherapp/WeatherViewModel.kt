@@ -16,6 +16,7 @@ import retrofit2.Response
 class WeatherViewModel : ViewModel() {
 
     val detailedViewClick = MutableLiveData<Bookmark>()
+    val bookmarksChanged = MutableLiveData<Boolean>()
     val pickLocationClicked = MutableLiveData<Boolean>()
     val addBookMark = MutableLiveData<Bookmark>()
 

@@ -16,7 +16,7 @@ import com.weatherapp.model.valueobject.Bookmark
  */
 class BookmarksAdapter(val viewModel: WeatherViewModel) :
     RecyclerView.Adapter<BookmarksAdapter.BookMarkViewHolder>() {
-    private val bookmarks = ArrayList<Bookmark>()
+    val bookmarks = ArrayList<Bookmark>()
 
     inner class BookMarkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cityName: TextView = itemView.findViewById(R.id.cityname)
@@ -47,6 +47,7 @@ class BookmarksAdapter(val viewModel: WeatherViewModel) :
     private fun removeBookmark(position: Int) {
         viewModel.removeBookmark(bookmarks[position])
         bookmarks.removeAt(position)
+        viewModel.bookmarksChanged.value = true
         notifyDataSetChanged()
     }
 
@@ -59,5 +60,6 @@ class BookmarksAdapter(val viewModel: WeatherViewModel) :
     fun addBookmark(bookmark: Bookmark) {
         bookmarks.add(bookmark)
         notifyItemInserted(bookmarks.size)
+        viewModel.bookmarksChanged.value = true
     }
 }

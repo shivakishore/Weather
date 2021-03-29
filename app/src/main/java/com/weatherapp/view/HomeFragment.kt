@@ -35,14 +35,14 @@ class HomeFragment : Fragment() {
     private lateinit var homeBinding: FragmentHomeBinding
     private lateinit var bookmarksAdapter: BookmarksAdapter
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         homeBinding = DataBindingUtil.inflate(
-                layoutInflater,
-                R.layout.fragment_home,
-                container,
-                false
+            layoutInflater,
+            R.layout.fragment_home,
+            container,
+            false
         )
 
         return homeBinding.root
@@ -60,7 +60,14 @@ class HomeFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val bookmarkList = viewModel.getAllBookMarks()
             withContext(Main) {
-                bookmarksAdapter.setBookmarks(bookmarkList)
+                if (bookmarkList.isEmpty()) {
+                    emptytext.visibility = View.VISIBLE
+                    rv_bookmarklist.visibility = View.GONE
+                } else {
+                    emptytext.visibility = View.GONE
+                    rv_bookmarklist.visibility = View.VISIBLE
+                    bookmarksAdapter.setBookmarks(bookmarkList)
+                }
             }
         }
         viewModel.pickLocationClicked.observe(viewLifecycleOwner, Observer {
@@ -87,6 +94,15 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_cityFragment)
             }
         })
+        viewModel.bookmarksChanged.observe(viewLifecycleOwner, Observer {
+            if (bookmarksAdapter.bookmarks.isEmpty()) {
+                emptytext.visibility = View.VISIBLE
+                rv_bookmarklist.visibility = View.GONE
+            } else {
+                emptytext.visibility = View.GONE
+                rv_bookmarklist.visibility = View.VISIBLE
+            }
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -96,19 +112,19 @@ class HomeFragment : Fragment() {
 
     private fun checkLocationPermission(): Boolean {
         if (ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissions(
-                    arrayOf(
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                    ),
-                    999
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                999
             )
             return false
         }
@@ -116,9 +132,9 @@ class HomeFragment : Fragment() {
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -126,9 +142,9 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_mapFragment)
             } else {
                 Toast.makeText(
-                        context,
-                        "Cannot add city without location permission",
-                        Toast.LENGTH_SHORT
+                    context,
+                    "Cannot add city without location permission",
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }

@@ -12,4 +12,5 @@
     <string name="wind_deg">Wind deg %s°</string>
     <string name="sunrise">Sunrise %s</string>
     <string name="sunset">Sunset %s</string>
+    <string name="empty_msg">No bookmarks added yet, please add a location bookmark by pressing the floating button below.</string>
 </resources>
